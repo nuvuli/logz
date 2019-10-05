@@ -1,4 +1,4 @@
-package logz // import go.nuvuli.com/logz
+package logz
 
 import (
 	"fmt"
