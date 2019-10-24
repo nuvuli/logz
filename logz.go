@@ -15,20 +15,23 @@ type Logger interface {
 	// InfoWithMessage writes Info level logs of key/value pairs. The msg is written with a key of "msg".
 	InfoWithMessage(msg string, keyvals ...interface{})
 
-	// Warn writes Info level logs of key/value pairs
+	// Warn writes Warn level logs of key/value pairs
 	Warn(keyvals ...interface{})
-	// WarnWithMessage writes Info level logs of key/value pairs. The msg is written with a key of "msg".
+	// WarnWithMessage writes Warn level logs of key/value pairs. The msg is written with a key of "msg".
 	WarnWithMessage(msg string, keyvals ...interface{})
 
-	// Error writes Info level logs of key/value pairs. err is written with a key of "err".
+	// Error writes Error level logs of key/value pairs. err is written with a key of "err".
 	Error(err error, keyvals ...interface{})
-	// ErrorWithMessage writes Info level logs of key/value pairs. err is written with a key of "err". The msg is written with a key of "msg".
+	// ErrorWithMessage writes Error level logs of key/value pairs. err is written with a key of "err". The msg is written with a key of "msg".
 	ErrorWithMessage(err error, msg string, keyvals ...interface{})
 
-	// Debug writes Info level logs of key/value pairs
+	// Debug writes Debug level logs of key/value pairs
 	Debug(keyvals ...interface{})
-	// DebugWithMessage writes Info level logs of key/value pairs. The msg is written with a key of "msg".
+	// DebugWithMessage writes Debug level logs of key/value pairs. The msg is written with a key of "msg".
 	DebugWithMessage(msg string, keyvals ...interface{})
+
+	// FatalError writes an Error level message and the calls os.Exit(1) if err is not nil. The "fataL" key value will be "true".
+	FatalError(err error, keyvals ... interface{})
 }
 
 type logger struct {
@@ -90,6 +93,21 @@ func (l *logger) ErrorWithMessage(err error, msg string, keyvals ...interface{})
 	if e != nil {
 		panic(e) // Got error logging error, something seriously broken, panic and get out of here
 	}
+}
+
+func (l *logger) FatalError(err error, keyvals ...interface{}) {
+	if err == nil {
+		return
+	}
+
+	keyvals = append(keyvals, "err", fmt.Sprintf("%+v", err), "fatal", true)
+	e := level.Error(l.logger).Log(keyvals...)
+
+	if e != nil {
+		panic(e) // Got error logging error, something seriously broken, panic and get out of here
+	}
+
+	os.Exit(1)
 }
 
 // NewLogger creates a new instance of Logger using the specified Level as the lowest level that will be logged.
