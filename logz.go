@@ -11,24 +11,24 @@ import (
 // Logger is a basic logging interface for a structured logger.
 type Logger interface {
 	// Info writes Info level logs of key/value pairs
-	Info(keyvals ...interface{})
+	InfoWithData(keyvals ...interface{})
 	// InfoWithMessage writes Info level logs of key/value pairs. The msg is written with a key of "msg".
-	InfoWithMessage(msg string, keyvals ...interface{})
+	Info(msg string, keyvals ...interface{})
 
 	// Warn writes Warn level logs of key/value pairs
-	Warn(keyvals ...interface{})
+	WarnWithData(keyvals ...interface{})
 	// WarnWithMessage writes Warn level logs of key/value pairs. The msg is written with a key of "msg".
-	WarnWithMessage(msg string, keyvals ...interface{})
+	Warn(msg string, keyvals ...interface{})
 
 	// Error writes Error level logs of key/value pairs. err is written with a key of "err".
-	Error(err error, keyvals ...interface{})
+	ErrorWithData(err error, keyvals ...interface{})
 	// ErrorWithMessage writes Error level logs of key/value pairs. err is written with a key of "err". The msg is written with a key of "msg".
-	ErrorWithMessage(err error, msg string, keyvals ...interface{})
+	Error(err error, msg string, keyvals ...interface{})
 
 	// Debug writes Debug level logs of key/value pairs
-	Debug(keyvals ...interface{})
+	DebugWithData(keyvals ...interface{})
 	// DebugWithMessage writes Debug level logs of key/value pairs. The msg is written with a key of "msg".
-	DebugWithMessage(msg string, keyvals ...interface{})
+	Debug(msg string, keyvals ...interface{})
 
 	// FatalError writes an Error level message and the calls os.Exit(1) if err is not nil. The "fataL" key value will be "true".
 	FatalError(err error, keyvals ... interface{})
@@ -42,34 +42,34 @@ func (l *logger) Log(keyvals ...interface{}) {
 	_ = l.logger.Log(keyvals...)
 }
 
-func (l *logger) Info(keyvals ...interface{}) {
+func (l *logger) InfoWithData(keyvals ...interface{}) {
 	_ = level.Info(l.logger).Log(keyvals...)
 }
 
-func (l *logger) InfoWithMessage(msg string, keyvals ...interface{}) {
+func (l *logger) Info(msg string, keyvals ...interface{}) {
 	keyvals = append(keyvals, "msg", msg)
 	_ = level.Info(l.logger).Log(keyvals...)
 }
 
-func (l *logger) Debug(keyvals ...interface{}) {
+func (l *logger) DebugWithData(keyvals ...interface{}) {
 	_ = level.Debug(l.logger).Log(keyvals...)
 }
 
-func (l *logger) DebugWithMessage(msg string, keyvals ...interface{}) {
+func (l *logger) Debug(msg string, keyvals ...interface{}) {
 	keyvals = append(keyvals, "msg", msg)
 	_ = level.Debug(l.logger).Log(keyvals...)
 }
 
-func (l *logger) Warn(keyvals ...interface{}) {
+func (l *logger) WarnWithData(keyvals ...interface{}) {
 	_ = level.Warn(l.logger).Log(keyvals...)
 }
 
-func (l *logger) WarnWithMessage(msg string, keyvals ...interface{}) {
+func (l *logger) Warn(msg string, keyvals ...interface{}) {
 	keyvals = append(keyvals, "msg", msg)
 	_ = level.Warn(l.logger).Log(keyvals...)
 }
 
-func (l *logger) Error(err error, keyvals ...interface{}) {
+func (l *logger) ErrorWithData(err error, keyvals ...interface{}) {
 	if err == nil {
 		return
 	}
@@ -82,7 +82,7 @@ func (l *logger) Error(err error, keyvals ...interface{}) {
 	}
 }
 
-func (l *logger) ErrorWithMessage(err error, msg string, keyvals ...interface{}) {
+func (l *logger) Error(err error, msg string, keyvals ...interface{}) {
 	if err == nil {
 		return
 	}

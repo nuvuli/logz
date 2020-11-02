@@ -1,4 +1,4 @@
-module go.nuvuli.com/logz
+module github.com/nuvuli/logz
 
 go 1.13
 
