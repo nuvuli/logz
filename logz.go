@@ -121,7 +121,7 @@ func NewLogger(lvl Level) Logger {
 
 	opt := lvl.Option()
 
-	l.logger = kitlog.NewJSONLogger(writer)
+	l.logger = kitlog.NewLogfmtLogger(writer)
 	l.logger = level.NewFilter(l.logger, opt)
 	l.logger = kitlog.With(l.logger, "ts", kitlog.DefaultTimestampUTC, "caller", kitlog.Caller(4))
 
