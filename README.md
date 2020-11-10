@@ -8,7 +8,7 @@ package main
 
 import (
     "errors"
-    "go.nuvuli.com/logz"
+    "github.com/nuvuli/logz"
 )
 
 func main() {
