@@ -1,6 +1,6 @@
 module github.com/nuvuli/logz
 
-go 1.13
+go 1.15
 
 require (
 	github.com/go-kit/kit v0.9.0
